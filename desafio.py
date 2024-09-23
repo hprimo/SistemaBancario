@@ -1,7 +1,7 @@
 menu = """
 
-[d] Depositar
-[s] Sacar
+[d] Deposito
+[s] Saque
 [e] Extrato
 [q] Sair
 
