@@ -1,3 +1,5 @@
+import datetime
+
 menu = """
 
 [d] Deposito
@@ -12,6 +14,8 @@ limite = 500
 extrato = ""
 numero_saques = 0
 LIMITE_SAQUES = 3
+LIMITE_DIARIO = 10
+numero_transacoes = 0
 
 while True:
 
@@ -19,10 +23,18 @@ while True:
 
     if opcao == "d":
         valor = float(input("Informe o valor do depósito: "))
+        
+        excedeu_transacoes = numero_transacoes >= LIMITE_DIARIO
+        
+        if excedeu_transacoes:
+            print("Operação falhou! Limite de 10 transacoes diarias.")
 
         if valor > 0:
             saldo += valor
-            extrato += f"Depósito: R$ {valor:.2f}\n"
+            numero_transacoes += 1
+            data = datetime.datetime.now()
+            data = data.strftime("%d/%m/%Y %H:%M:%s")
+            extrato += f"Depósito: R$ {valor:.2f} no dia {data}d\n" 
 
         else:
             print("Operação falhou! O valor informado é inválido.")
@@ -36,6 +48,8 @@ while True:
 
         excedeu_saques = numero_saques >= LIMITE_SAQUES
 
+        excedeu_transacoes = numero_transacoes >= LIMITE_DIARIO
+
         if excedeu_saldo:
             print("Operação falhou! Você não tem saldo suficiente.")
 
@@ -45,9 +59,16 @@ while True:
         elif excedeu_saques:
             print("Operação falhou! Número máximo de saques excedido.")
 
+        elif excedeu_transacoes:
+            print("Operação falhou! Limite de 10 transacoes diarias.")
+
+
         elif valor > 0:
             saldo -= valor
-            extrato += f"Saque: R$ {valor:.2f}\n"
+            data = datetime.datetime.now()
+            data = data.strftime("%d/%m/%Y %H:%M:%s")
+            extrato += f"Saque: R$ {valor:.2f} dno dia {data}\n "
+            numero_transacoes += 1
             numero_saques += 1
 
         else:
